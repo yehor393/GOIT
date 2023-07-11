@@ -19,4 +19,3 @@ def calculate_distance(coordinates, total = 0):
     return total
 result = calculate_distance(coordinates)
 print(result)
-asdasd
