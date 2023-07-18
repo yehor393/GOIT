@@ -1,21 +1,19 @@
-pin_codes = ['1101', '9034', '0011', '0012']
 def is_valid_pin_codes(pin_codes):
-    pin_is_valid = []
+    pin_is_valid = False
     for i in pin_codes:
         try:
             int(i)
             if len(i) == 4 and \
                     i != '' and \
                     len(pin_codes) == len(set(pin_codes)):
-                pin_is_valid.append(True)
+                pin_is_valid = True
+                continue
             else:
-                pin_is_valid.append(False)
+                pin_is_valid = False
+                break
         except ValueError:
-            pin_is_valid.append(False)
+            pin_is_valid = False
+            break
         print(i)
-    if all(pin_is_valid):
-        pin_is_valid = True
-    else:
-        pin_is_valid = False
+    print(pin_is_valid)
     return pin_is_valid
-print(is_valid_pin_codes(pin_codes))
