@@ -9,20 +9,21 @@ audio_files = list()
 archives_files = list()
 folders = list()
 others = list()
-unknown = set()
+unknown = list()
 extensions = set()
 
 registered_extensions = {
-    "JPEG":images_files, "PNG":images_files, "JPG":images_files, "SVG":images_files,
+    "JPEG": images_files, "PNG": images_files, "JPG": images_files, "SVG": images_files,
 
-    "AVI":video_files, "MP4":video_files, "MOV":video_files, "MKV":video_files,
+    "AVI": video_files, "MP4": video_files, "MOV": video_files, "MKV": video_files,
 
-    "DOC":documents_files, "DOCX":documents_files, "TXT":documents_files, "PDF":documents_files,
-    "XLSX":documents_files, "PPTX":documents_files,
+    "DOC": documents_files, "DOCX": documents_files, "TXT": documents_files, "PDF": documents_files,
+    "XLSX": documents_files, "PPTX": documents_files,
 
-    "MP3":audio_files, "OGG":audio_files, "WAV":audio_files, "AMR":audio_files,
+    "MP3": audio_files, "OGG": audio_files, "WAV": audio_files, "AMR": audio_files,
 
-    "GZ":archives_files, "TAR":archives_files
+    "GZ": archives_files, "TAR": archives_files, "ZIP": archives_files,
+    '': unknown
 
 }
 
@@ -39,16 +40,13 @@ def scan(folder):
 
         extension = get_extensions(file_name=item.name)
         new_name = folder/item.name                                     #Link to item.name in folder what we give
-        if not extension:
+        try:
+            container = registered_extensions[extension]            #container = one item of dir
+            extensions.add(extension)
+            container.append(new_name)                              #where? and what?
+        except KeyError:
             others.append(new_name)
-        else:
-            try:
-                container = registered_extensions[extension]            #container = one item of dir
-                extensions.add(extension)
-                container.append(new_name)                              #where? and what?
-            except KeyError:
-                unknown.add(extension)
-                others.append(extension)
+            extensions.add(extension)
 
 if __name__ == '__main__':
     path = sys.argv[1]
